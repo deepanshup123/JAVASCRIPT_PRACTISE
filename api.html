@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        <!-- this is for usrl save to one variable to call in open method -->
+        const url = 'https://api.github.com/users/deepanshup';
+        
+        // there is we create a one object using XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        console.log(xhr.readyState)
+        // this open method is used to gt url to readystate and for api and
+        // this for two parameter one is method and second is api link 
+        xhr.open('GET',url);
+        console.log(xhr.readyState)
+        // in this we can get the data of that api
+        xhr.onreadystatechange = function(){
+            console.log(xhr.readyState);
+            // this is ready state 4 means the request succesfull 
+            if(xhr.readyState === 4){
+                // the data is store the api data in their variable by sing 'this'
+                const data = this.response;
+                // converting the that received data to object form
+                const data_obj = JSON.parse(data)
+                // now we can access the data easily
+                console.log(data_obj.login)
+            }
+        }
+        // this for seding the reuest to api to fetch the fully page
+       xhr.send();
+    </script>
+</body>
+</html>
