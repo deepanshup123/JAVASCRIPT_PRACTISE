@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        const promiseone = new Promise(function (resolve, reject){
+            setTimeout(function(){
+                // console.log('hii Deepanshu');
+                resolve();
+            }, 1000)
+        })
+
+        promiseone.then( function (){
+            // console.log('resolved complete');
+        })
+
+        new Promise( (resolve, reject) => {
+            setTimeout( () => {
+                // console.log('second promises');
+            }, 1000)
+            resolve();
+        }).then( ()=>{
+            // console.log('promise resolved by without variable');
+        });
+
+        const promisethird = new Promise( (resolve, reject) => {
+            setTimeout( () => {
+                let response = false;
+                if (response) {
+                    setTimeout( () => {
+                        // console.log('response generated');
+                        resolve();
+                    }, 1000)
+                }else{
+                    reject();
+                }
+            }, 1000)
+        });
+
+        promisethird.then( () => {
+            // console.log('hii deepanshu');
+        }).catch( (e) => {
+            // console.log('error: ', e);
+        }).finally( () => console.log('work either resolve or reject is done'));
+
+        const promisefive = new Promise((resolve, reject) => {
+            setTimeout( () => {
+                // console.log("you recieve the data");
+                resolve({ name : 'deepanshu', age: 24, email: 'pateldeepanshu10@gmail.com'})
+            },1000)
+        });
+
+        promisefive.then( (data) => {
+            // console.log(data);
+            // console.log(data.email);
+        }).catch( (e) => {
+            console.log(e);
+        })
+
+        // now we work on one api to fetch data by using promises
+
+        const apipromise = new Promise( (resolve, reject) => {
+            setTimeout(() => {
+                // console.log('api fetch successfully');
+                resolve('https://api.github.com/users/deepanshup');
+                
+            },1000)
+        })
+
+        apipromise
+        .then( (url) => {
+            return fetch(url);
+        })
+        .then( (data) => {
+            // console.log(data);
+            return data.json();
+        })
+        .then( (datas) => {
+            // console.log(datas);
+            // console.log(typeof datas);
+        })
+        .catch( (e) => {
+            // console.log('error: ', e);
+        });
+
+// ASYNC AWAIT 
+
+        const promisesix = new Promise( (resolve, reject) => {
+            setTimeout( () => {
+                let error = false;
+                if(!error){
+                    resolve({name:'deepanshu', age: 22, email:'pateldeepanshu@gmail.com'})
+                }else{
+                    reject('something went wrong');
+                }
+            },1000)
+        });
+
+        async function consumeapi (){
+            try {
+                const response = await promisesix;
+                // console.log(response);            
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        // consumeapi();
+
+        async function getminedata(){
+            try {
+                const res = await fetch('https://api.github.com/users/deepanshup');
+                console.log(typeof res);
+                const data = await res.json();
+                console.log(data.followers);
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+        getminedata();
+
+        fetch('https://api.github.com/users/deepanshup')
+        .then( (response) => {
+            return response.json();
+        })
+        .then( (data) => {
+            console.log(data.login);
+        }).catch( (e => {
+            console.log(error);
+        }))
+
+    </script>
+</body>
+</html>
